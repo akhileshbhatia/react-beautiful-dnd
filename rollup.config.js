@@ -44,52 +44,6 @@ const commonjsArgs = {
 };
 
 export default [
-  // Universal module definition (UMD) build
-  // - including console.* statements
-  // - conditionally used to match snapshot size
-  {
-    input,
-    output: {
-      file: 'dist/react-beautiful-dnd.js',
-      format: 'umd',
-      name: 'ReactBeautifulDnd',
-      globals: { react: 'React', 'react-dom': 'ReactDOM' },
-    },
-    // Only deep dependency required is React
-    external: ['react', 'react-dom'],
-    plugins: [
-      json(),
-      babel(getBabelOptions({ useESModules: true })),
-      resolve({ extensions }),
-      commonjs(commonjsArgs),
-      replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
-      sizeSnapshot(snapshotArgs),
-    ],
-  },
-
-  // Minified UMD build
-  {
-    input,
-    output: {
-      file: 'dist/react-beautiful-dnd.min.js',
-      format: 'umd',
-      name: 'ReactBeautifulDnd',
-      globals: { react: 'React', 'react-dom': 'ReactDOM' },
-    },
-    // Only deep dependency required is React
-    external: ['react', 'react-dom'],
-    plugins: [
-      json(),
-      babel(getBabelOptions({ useESModules: true })),
-      resolve({ extensions }),
-      commonjs(commonjsArgs),
-      strip({ debugger: true }),
-      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-      sizeSnapshot(snapshotArgs),
-      uglify(),
-    ],
-  },
-
   // CommonJS (cjs) build
   // - Keeping console.log statements
   // - All external packages are not bundled
@@ -101,21 +55,6 @@ export default [
       json(),
       resolve({ extensions }),
       babel(getBabelOptions({ useESModules: false })),
-    ],
-  },
-
-  // EcmaScript Module (esm) build
-  // - Keeping console.log statements
-  // - All external packages are not bundled
-  {
-    input,
-    output: { file: pkg.module, format: 'esm' },
-    external: excludeAllExternals,
-    plugins: [
-      json(),
-      resolve({ extensions }),
-      babel(getBabelOptions({ useESModules: true })),
-      sizeSnapshot(snapshotArgs),
     ],
   },
 ];
